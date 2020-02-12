@@ -19,7 +19,7 @@ render() {
                  <option value="">select position</option>
                   {this.props.positions.map(position=> {
                     return (
-                     <option key={Math.random()} value={position}>{position}</option>
+                     <option key={position} value={position}>{position}</option>
                     )
                  })}
       </select>

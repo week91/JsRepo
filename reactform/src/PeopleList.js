@@ -20,7 +20,7 @@ class PeopleList extends React.Component {
               </tr>
               {this.props.people.map(worker => {
                 return (
-                  <tr key={Math.random()}>
+                  <tr key={worker.name}>
                     <td>{worker.name}</td>
                     <td>{worker.position}</td>
                     <td>
