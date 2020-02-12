@@ -1,84 +1,67 @@
 import React from 'react';
-
 import './App.css';
-
+import AddWorker from './AddWorker'
 import PeopleList from './PeopleList';
 
 class App extends React.Component {  
-  posit=[1,3,4,5,6,]
+  
   constructor() {
     super();
     this.state = {
+      workers: [],
       name:"",
       contract: false,
-      position: "1",
-      items: [],
-         };
-    this.Submit = this.Submit.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
+      position: "",
+      positions:["engineer","accountant","manager","dispatcher","dealer"]
+    }
    
+    this.submit = this.submit.bind(this);
+    this.inputChange = this.inputChange.bind(this);
   }
-  handleInputChange(e) {
+
+  inputChange(e) 
+  {
     let target = e.target;
     let name = e.target.name;
     let value = target.type === "checkbox" ? target.checked : target.value;
    
-    this.setState({
-      [name]:value
-      
-    }); 
-    console.log(this.state.name)
-    
+    this.setState({[name]:value}); 
   }
-  Submit(e){
+
+  submit(e){
    
-    let items = [...this.state.items];
-    items.push({
+    let workers = [...this.state.workers];
+        workers.push({
       name: this.state.name,
       contract: this.state.contract,
       position: this.state.position
     }) 
+
     e.preventDefault();
-    
-    console.log(this.state.items)
-    console.log(this.state.name)
-    this.setState({
-      items,
-      name: "",
-      position: "1"
-    });
+          this.setState({
+           workers,
+           name: "",
+           
+          })
   }
+
   render (){return(
 
       <div className="App">
-        <form onSubmit={this.Submit}>
-    <label> Name:
-      <input type="text" value={this.state.name}
-           
-            name="name" onChange={this.handleInputChange}/>
-    </label> 
-  <tr></tr>
-  <label>
-    Position:
-    <select  name="position" value={this.state.position}    onChange={this.handleInputChange}>
-  
-      {this.posit.map(pos=> {return (	<option value={pos}>{pos}</option>)})}
-    </select>
-    </label>
-    <tr/>
-    <label> Is contract :
-  <input onChange={this.handleInputChange} type="checkbox" name="contract"/>
-          </label>
-    <tr/>
-   
-   <input type="submit" value="add"></input>
-     
-  </form>
+       
+<AddWorker  submit={this.submit}
+            inputChange={this.inputChange}
+            name={this.state.name}
+            conctact={this.state.contract}
+            position={this.state.position}
+            positions={this.state.positions}
+             />
+            
+  <PeopleList people={this.state.workers}
+              />
 
-  <PeopleList people={this.state.items}/>
-
-        </div>
-  )
+      </div>
+     )
     }
   }
 
