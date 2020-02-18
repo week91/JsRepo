@@ -1,21 +1,38 @@
 import React from 'react';
-
+import nanoid from 'nanoid';
 
 class AddWorker extends React.Component { 
     constructor(props){
-        super(props);
+        super(props); 
+        let { name, contract, position, id } = this.props.editor;
           this.state={
-             name:"",
-             contract: false,
-             position: "",    
-             workers:[],
+             name: name ? name : "",
+             contract: contract ? contract : false,
+             position: position ? position:"choose position",    
+             workers: [],
+             id:id ? id:""
           }  
       this.submits=this.submits.bind(this)
       this.inputChange = this.inputChange.bind(this);
+     
     }
-
+    componentDidUpdate(prevProps){
+      
+        if (this.props.editor.id === prevProps.editor.id) {
+          return null;
+        } else {
+          let { name, contract, position, id } = this.props.editor;
+          this.setState({
+            name: name,
+            contract: contract,
+            position: position,
+            id: id
+          });
+        }
+      
+    }
   inputChange(e) 
-  {
+  { 
     let target = e.target;
     let name = e.target.name;
     let value = target.type === "checkbox" ? target.checked : target.value;
@@ -23,17 +40,19 @@ class AddWorker extends React.Component {
   }
 
   submits(e){
-     let workers = [...this.state.workers];
+     let workers = [...this.props.workers];
      workers.push({
        name: this.state.name,
        contract: this.state.contract,
-       position: this.state.position 
+       position: this.state.position ,
+       id:nanoid()
      })
 
  e.preventDefault();
   this.setState({
      workers,
-     name:""
+     name:"",
+     id: ""
   })
 
   this.props.initial.addwork(workers)
@@ -52,12 +71,12 @@ render()
      <tr/>
      <label>Position:
       <select  name="position" 
-             value={this.position}
+             value={this.state.position}
                onChange={this.inputChange}>
-                 <option value="">select position</option>
+                 <option >{this.state.position}</option>
                   {this.props.initial.positions.map(position=> {
                     return (
-                     <option key={position} value={position}>{position}</option>
+                     <option key={position.value} value={position.stat}>{position.stat}</option>
                     )
                  })}
       </select>
@@ -66,7 +85,8 @@ render()
      <label>Contract :
         <input onChange={this.inputChange}
                type="checkbox" 
-               name="contract"/>
+               name="contract"
+               checked={this.state.contract}/>
       </label>
     <tr/>
    <input type="submit"

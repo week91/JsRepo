@@ -1,11 +1,8 @@
 import React from 'react';
 
-
-
-
-
-class PeopleList extends React.Component {  
-    render() {
+ 
+  function PeopleList(props) {
+   
      return (
            <div className="container">
           <table>
@@ -17,10 +14,12 @@ class PeopleList extends React.Component {
                 <th>Name</th>
                 <th>Position</th>
                 <th>Contract</th>
+                <th>Delete</th>
+                <th>Edit</th>
               </tr>
-              {this.props.people.map(worker => {
+              {props.people.map(worker => {
                 return (
-                  <tr key={worker.name}>
+                  <tr key={worker.id}>
                     <td>{worker.name}</td>
                     <td>{worker.position}</td>
                     <td>
@@ -28,6 +27,15 @@ class PeopleList extends React.Component {
                        checked={worker.contract}
                        disabled={true}
                      />
+                    </td>
+                    <td>
+                      <input className="close"type="button" value="delete" id={worker.id} onClick={props.action.del}
+                       />
+                    </td>
+                    <td>
+                      <input type="button" value="edit" id={worker.id} onClick={props.action.edit}
+                      
+                       />
                     </td>
                   </tr>
                 )
@@ -37,6 +45,6 @@ class PeopleList extends React.Component {
         </div>
       )
     }
-  }
+  
   
   export default PeopleList;
