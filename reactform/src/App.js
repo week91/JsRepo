@@ -40,6 +40,7 @@ class App extends React.Component {
 
     this.setState({
       workers: workers
+
     });
   }
 
@@ -47,7 +48,8 @@ class App extends React.Component {
     let workers = [...this.state.workers];
     workers=[...value]
     this.setState({
-      workers:workers
+      workers:workers,
+      editorWorker: {},
     })
   }
  render ()
