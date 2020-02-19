@@ -41,13 +41,24 @@ class AddWorker extends React.Component {
 
   submits(e){
      let workers = [...this.props.workers];
-     workers.push({
-       name: this.state.name,
-       contract: this.state.contract,
-       position: this.state.position ,
-       id:nanoid()
-     })
+    if (typeof this.props.editor.id ==="undefined") {
+        workers.push({
+            name: this.state.name,
+            contract: this.state.contract,
+            position: this.state.position ,
+            id: nanoid(),
+          })
 
+         } else { 
+       workers[workers.indexOf(
+      workers.find(item=>{return item.id===this.props.editor.id}))]={
+      name: this.state.name,
+      contract: this.state.contract,
+      position: this.state.position,
+      id: this.props.editor.id,
+    }
+  }
+  this.props.initial.addwork(workers)
  e.preventDefault();
   this.setState({
      workers,
@@ -55,7 +66,6 @@ class AddWorker extends React.Component {
      id: ""
   })
 
-  this.props.initial.addwork(workers)
 }
 
 render()
